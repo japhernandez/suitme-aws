@@ -1,0 +1,85 @@
+version: '3.1'
+
+services:
+  api:
+    container_name: suitme_app
+    build:
+      context: .
+      dockerfile: ./src/deployment/Dockerfile.dev
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    ports:
+      - "9000:9000"
+    environment:
+      - NODE_ENV=development
+      - PORT=9000
+    command: "/bin/bash -c 'npm install && npm run watch'"
+    depends_on:
+      - mysql
+    networks:
+      - suitme-network
+
+  mysql:
+    image: mysql:8.0
+    container_name: suitme_mysql
+    command: --default-authentication-plugin=mysql_native_password
+    restart: always
+    ports:
+      - ${DB_PORT_MYSQL}:3306
+    environment:
+      MYSQL_DATABASE: ${DATABASE_MYSQL}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD_MYSQL}
+      MYSQL_PASSWORD: ${DB_PASSWORD_MYSQL}
+      MYSQL_USER: ${DB_USER_MYSQL}
+      SERVICE_TAGS: dev
+      SERVICE_NAME: mysql
+      MONGO_DEVELOPMENT: ${MONGO_DEVELOPMENT}
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - suitme-network
+
+  phpmyadmin:
+    image: phpmyadmin
+    ports:
+      - "8080:80"
+    environment:
+      - PMA_HOST=mysql
+    depends_on:
+      - mysql
+    networks:
+      - suitme-network
+
+  mongo:
+    image: mongo
+    restart: always
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-db:/data/db
+      - mongo-configdb:/data/configdb
+    networks:
+      - suitme-network
+
+  mongoexpress:
+    image: mongo-express
+    ports:
+        - "8081:8081"
+    links:
+        - mongo
+    environment:
+        ME_CONFIG_MONGODB_URL: ${MONGO_DEVELOPMENT}
+    networks:
+      - suitme-network
+
+volumes:
+    mysql_data:
+    mongo-db:
+    mongo-configdb:
+
+networks:
+  suitme-network:
+    driver: bridge
+
