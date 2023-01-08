@@ -32,7 +32,7 @@ variable "alb" {
 
 variable "repository" {
   type    = string
-  default = "Suitme-Back"
+  default = "suitme"
 }
 
 variable "task_execution_role" {
@@ -72,7 +72,7 @@ variable "iam_role_app_codebuild" {
 
 variable "app_codepipeline_artifacts" {
   type    = string
-  default = "app_codepipeline_artifacts"
+  default = "app-codepipeline-artifacts"
 }
 
 variable "iam_role_app_codepipeline" {
@@ -82,12 +82,12 @@ variable "iam_role_app_codepipeline" {
 
 variable "iam_role_app_codepipeline_policy" {
   type    = string
-  default = "app_codepipeline_policy"
+  default = "app-codepipeline-policy"
 }
 
 variable "github_app_connection" {
   type = string
-  default = "github_app_connection"
+  default = "github-app-connection"
 }
 
 variable "app_pipeline" {
