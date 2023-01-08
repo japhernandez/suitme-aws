@@ -1,6 +1,6 @@
 [
   {
-    "name": "app",
+    "name": "frontend",
     "image": "${IMAGE_PATH}",
     "cpu": 10,
     "memory": 100,
