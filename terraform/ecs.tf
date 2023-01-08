@@ -3,7 +3,7 @@ resource "aws_ecs_cluster" "cluster" {
 }
 
 resource "aws_ecs_task_definition" "app" {
-  family                   = "app"
+  family                   = var.app
   execution_role_arn       = aws_iam_role.app_task_execution_role.arn
   requires_compatibilities = ["FARGATE"]
   network_mode             = "awsvpc"
@@ -38,7 +38,7 @@ resource "aws_lb_listener_rule" "app" {
   listener_arn = aws_lb_listener.http.arn
 
   action {
-    type = "forward"
+    type             = "forward"
     target_group_arn = aws_alb_target_group.app.arn
   }
 

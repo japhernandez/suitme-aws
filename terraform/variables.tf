@@ -1,5 +1,6 @@
 variable "aws_region" {
-  type = string
+  type    = string
+  default = "eu-central-1"
 }
 
 variable "aws_access_key" {
@@ -70,9 +71,9 @@ variable "iam_role_app_codebuild" {
   default = "app-codebuild"
 }
 
-variable "app_codepipeline_artifacts" {
+variable "app_s3_codepipeline_artifacts" {
   type    = string
-  default = "app-codepipeline-artifacts"
+  default = "suitme-artifacts"
 }
 
 variable "iam_role_app_codepipeline" {
@@ -86,11 +87,11 @@ variable "iam_role_app_codepipeline_policy" {
 }
 
 variable "github_app_connection" {
-  type = string
+  type    = string
   default = "github-app-connection"
 }
 
 variable "app_pipeline" {
-  type = string
+  type    = string
   default = "app-pipeline"
 }
